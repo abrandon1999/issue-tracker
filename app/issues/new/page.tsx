@@ -1,5 +1,7 @@
 'use client';
 import { Button, TextArea, TextField } from '@radix-ui/themes';
+//import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 import React from 'react';
 
 const NewIssuePage = () => {
@@ -15,3 +17,7 @@ const NewIssuePage = () => {
 };
 
 export default NewIssuePage;
+//Couldn't add SimpleMDE component, because it causes
+//issue with building project,had to replace with
+//TextArea component
+//<SimpleMDE placeholder="Description" />;
