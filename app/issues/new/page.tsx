@@ -10,6 +10,8 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { createIssueSchema } from '@/app/validationSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
+import Spinner from '@/app/components/Spinner';
 
 //interface IssueForm {
 //    title: string;
@@ -28,6 +30,7 @@ const NewIssuePage = () => {
         resolver: zodResolver(createIssueSchema)
     });
     const [error, setError] = useState('');
+    const [isSubmitting, setSubmitting] = useState(false);
     return (
         <div className="max-w-xl">
             {error && (
@@ -39,9 +42,11 @@ const NewIssuePage = () => {
                 className="space-y-3"
                 onSubmit={handleSubmit(async (data) => {
                     try {
+                        setSubmitting(true);
                         await axios.post('/api/issues', data);
                         router.push('/issues');
                     } catch (error) {
+                        setSubmitting(false);
                         setError('an unexpected error occurred');
                     }
                 })}
@@ -49,18 +54,10 @@ const NewIssuePage = () => {
                 <TextField.Root>
                     <TextField.Input placeholder="Title" {...register('title')} />
                 </TextField.Root>
-                {errors.title && (
-                    <Text color="red" as="p">
-                        {errors.title.message}
-                    </Text>
-                )}
+                <ErrorMessage>{errors.title?.message}</ErrorMessage>
                 <TextArea placeholder="Description" {...register('description')} />
-                {errors.description && (
-                    <Text color="red" as="p">
-                        {errors.description.message}
-                    </Text>
-                )}
-                <Button>Summit New Issue</Button>
+                <ErrorMessage>{errors.description?.message}</ErrorMessage>
+                <Button disabled={isSubmitting}>Summit New Issue {isSubmitting && <Spinner />}</Button>
             </form>
         </div>
     );
