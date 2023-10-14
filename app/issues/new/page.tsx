@@ -1,5 +1,5 @@
 'use client';
-import { Button, Callout, TextArea, TextField } from '@radix-ui/themes';
+import { Button, Callout, TextArea, TextField, Text } from '@radix-ui/themes';
 //import SimpleMDE from 'react-simplemde-editor';
 //import 'easymde/dist/easymde.min.css';
 import React, { useState } from 'react';
@@ -7,15 +7,26 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+import { createIssueSchema } from '@/app/validationSchemas';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-interface IssueForm {
-    title: string;
-    description: string;
-}
+//interface IssueForm {
+//    title: string;
+//    description: string;
+//}
+type IssueForm = z.infer<typeof createIssueSchema>;
 const NewIssuePage = () => {
     const router = useRouter();
     //const { register, control, handleSubmit } = useForm<IssueForm>();
-    const { register, control, handleSubmit } = useForm<IssueForm>();
+    const {
+        register,
+        control,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<IssueForm>({
+        resolver: zodResolver(createIssueSchema)
+    });
     const [error, setError] = useState('');
     return (
         <div className="max-w-xl">
@@ -38,8 +49,17 @@ const NewIssuePage = () => {
                 <TextField.Root>
                     <TextField.Input placeholder="Title" {...register('title')} />
                 </TextField.Root>
+                {errors.title && (
+                    <Text color="red" as="p">
+                        {errors.title.message}
+                    </Text>
+                )}
                 <TextArea placeholder="Description" {...register('description')} />
-
+                {errors.description && (
+                    <Text color="red" as="p">
+                        {errors.description.message}
+                    </Text>
+                )}
                 <Button>Summit New Issue</Button>
             </form>
         </div>
