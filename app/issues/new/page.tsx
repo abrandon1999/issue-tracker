@@ -1,10 +1,11 @@
 'use client';
 import { Button, Callout, TextArea, TextField, Text } from '@radix-ui/themes';
 //import SimpleMDE from 'react-simplemde-editor';
-//import 'easymde/dist/easymde.min.css';
+import 'easymde/dist/easymde.min.css';
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
-//import { useForm, Controller } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+//import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
@@ -18,6 +19,9 @@ import Spinner from '@/app/components/Spinner';
 //    description: string;
 //}
 type IssueForm = z.infer<typeof createIssueSchema>;
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
+    ssr: false
+});
 const NewIssuePage = () => {
     const router = useRouter();
     //const { register, control, handleSubmit } = useForm<IssueForm>();
@@ -55,7 +59,7 @@ const NewIssuePage = () => {
                     <TextField.Input placeholder="Title" {...register('title')} />
                 </TextField.Root>
                 <ErrorMessage>{errors.title?.message}</ErrorMessage>
-                <TextArea placeholder="Description" {...register('description')} />
+                <Controller name="description" control={control} render={({ field }) => <SimpleMDE placeholder="Description" {...field} />} />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
                 <Button disabled={isSubmitting}>Summit New Issue {isSubmitting && <Spinner />}</Button>
             </form>
@@ -68,5 +72,6 @@ export default NewIssuePage;
 //issue with building project,had to replace with
 //TextArea component
 //<SimpleMDE placeholder="Description" />;
+//<TextArea placeholder="Description" {...register('description')} />
 //-------------------------------------------------------------------------------------------
 //<Controller name="description" control={control} render={({ field }) => <SimpleMDE placeholder="Description" {...field} />} />;
