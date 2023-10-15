@@ -3,7 +3,7 @@ import prisma from '@/prisma/client';
 import { Heading, Text, Card, Flex } from '@radix-ui/themes';
 import { notFound } from 'next/navigation';
 import React from 'react';
-
+//import delay from 'delay';
 interface Props {
     params: { id: string };
 }
@@ -13,6 +13,7 @@ const IssueDetailPage = async ({ params }: Props) => {
     });
 
     if (!issue) notFound();
+    //await delay(2000);
     return (
         <>
             <div className="my-6">IssueDetailPage</div>
