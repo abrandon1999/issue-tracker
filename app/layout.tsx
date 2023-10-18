@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NavBar from './NavBar';
 import '@radix-ui/themes/styles.css';
-import { Theme } from '@radix-ui/themes';
+import { Container, Theme } from '@radix-ui/themes';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -17,7 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={inter.className}>
                 <Theme>
                     <NavBar />
-                    <main className="p-5">{children}</main>
+                    <main className="p-5">
+                        <Container>{children}</Container>
+                    </main>
                 </Theme>
             </body>
         </html>

@@ -1,0 +1,2 @@
+./~/datagrip/bin/datagrip.sh
+npm run dev
