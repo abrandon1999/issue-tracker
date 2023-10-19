@@ -3,3 +3,5 @@ brandon@ubuntu:~/datagrip/bin$ pwd
 cd /home/brandon/datagrip/bin
 ./datagrip.sh
 npm run dev
+
+brandon@ubuntu:~/postman/app$ ./postman-agent
