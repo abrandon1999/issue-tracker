@@ -1,2 +1,5 @@
-./~/datagrip/bin/datagrip.sh
+brandon@ubuntu:~/datagrip/bin$ pwd
+/home/brandon/datagrip/bin
+cd /home/brandon/datagrip/bin
+./datagrip.sh
 npm run dev
