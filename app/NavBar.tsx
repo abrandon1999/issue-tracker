@@ -11,7 +11,7 @@ const NavBar = () => {
     const { status, data: session } = useSession();
     const links = [
         { label: 'Dashboard', href: '/' },
-        { label: 'Issues', href: '/issues' }
+        { label: 'Issues', href: '/issues/list' }
     ];
     return (
         <nav className=" border-b mb-5 px-5 py-3 ">
